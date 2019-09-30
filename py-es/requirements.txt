@@ -1,0 +1,6 @@
+# coding:utf-8
+--index-url https://pypi.tuna.tsinghua.edu.cn/simple
+
+elasticsearch-dsl-py
+ua-parser==0.8.0
+PyExecJS==1.5.1
