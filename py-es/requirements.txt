@@ -1,6 +1,7 @@
 # coding:utf-8
 --index-url https://pypi.tuna.tsinghua.edu.cn/simple
 
-elasticsearch-dsl-py
+redis
+elasticsearch-dsl
 ua-parser==0.8.0
 PyExecJS==1.5.1
