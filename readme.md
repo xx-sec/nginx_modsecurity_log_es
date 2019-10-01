@@ -10,7 +10,7 @@
 
 ### 安装 modsecurity 
 ```
-docker run -itd --net=host --name=modsec \
+docker run -itd --net=host --name=modsec --restart=always \
 -v /etc/localtime:/etc/localtime:ro \
 -v /spool/log/:/spool/log/ \
 -v $(pwd)/tengine/nginx.conf:/etc/nginx/nginx.conf \
@@ -50,7 +50,7 @@ docker run \
 ## 安装 syslog-ng with py-elesticsearch 
 - https://www.syslog-ng.com/community/b/blog/posts/python-destination-getting-started
 ```
-docker run -itd --name=sloges \
+docker run -itd --name=sloges --net=host --restart=always \
 -v /spool/:/spool/ \
 -v $(pwd)/py-es/xetl:/software/xetl \
 -v $(pwd)/py-es/syslog-ng.conf:/software/syslog-ng/etc/syslog-ng.conf \
