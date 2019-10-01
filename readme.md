@@ -44,4 +44,16 @@ docker run \
 -v /srv/docker/es/es_data:/usr/share/elasticsearch/data \
 -d elasticsearch:5.6.11
 ```
-https://www.syslog-ng.com/community/b/blog/posts/python-destination-getting-started
+## ES 部署使用 way2king/docker-elk  
+- 略
+
+## 安装 syslog-ng with py-elesticsearch 
+- https://www.syslog-ng.com/community/b/blog/posts/python-destination-getting-started
+```
+docker run -itd --name=sloges \
+-v /spool/:/spool/ \
+-v $(pwd)/py-es/xetl:/software/xetl \
+-v $(pwd)/py-es/syslog-ng.conf:/software/syslog-ng/etc/syslog-ng.conf \
+registry.cn-hangzhou.aliyuncs.com/rapid7/syslog-es:v1 \
+/bin/bash /entrypoint.sh 
+```
