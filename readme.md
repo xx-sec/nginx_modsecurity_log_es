@@ -13,7 +13,7 @@
 docker run -itd --net=host --name=modsec \
 -v /etc/localtime:/etc/localtime:ro \
 -v /spool/log/:/spool/log/ \
--v $(pwd)/tengine/nginx.conf:/etc/nginx.conf \
+-v $(pwd)/tengine/nginx.conf:/etc/nginx/nginx.conf \
 -v $(pwd)/tengine/help.conf:/etc/nginx/help.conf \
 -v $(pwd)/tengine/vhosts:/etc/nginx/vhosts \
 registry.cn-hangzhou.aliyuncs.com/rapid7/modsecurity:v1 \
@@ -44,3 +44,4 @@ docker run \
 -v /srv/docker/es/es_data:/usr/share/elasticsearch/data \
 -d elasticsearch:5.6.11
 ```
+https://www.syslog-ng.com/community/b/blog/posts/python-destination-getting-started
