@@ -128,3 +128,11 @@ def test_redis():
     cache.clear()
 
 
+def test_nginx_err():
+
+    fstr = """2019/10/02 10:17:01 [error] 27#0: *1030 [client 172.17.0.1] ModSecurity: Access denied with code 403 (phase 1). Matched "Operator `Eq' with parameter `1' against variable `IP:172.17.0.1_d9b252bcadfb7e5c254cd1395e8f7c230b1ae3c6::::DOS_BLOCK' (Value: `1' ) [file "/opt/owasp-modsecurity-crs/rules/REQUEST-912-DOS-PROTECTION.conf"] [line "123"] [id "912130"] [rev ""] [msg ""] [data ""] [severity "0"] [ver ""] [maturity "0"] [accuracy "0"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-dos"] [hostname "172.17.0.1"] [uri "/"] [unique_id "157002582131.446118"] [ref ""], client: 172.17.0.1, server: waf_default, request: "GET / HTTP/1.0", host: "localhost:2380" """
+
+    from xdsl.parse import get_h_logfile_demo
+    tada = get_h_logfile_demo(fstr)
+    print(tada)
+

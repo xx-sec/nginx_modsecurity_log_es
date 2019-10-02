@@ -1,4 +1,4 @@
-from elasticsearch_dsl import Document, Date, Integer, Text, connections, Ip, Float, Object, Keyword
+from elasticsearch_dsl import Document, Date, Integer, Text, connections, Ip, Float, Object, Keyword, Boolean
 
 from xdsl.settings import ES_HOSTS
 
@@ -25,8 +25,9 @@ class NginxAccessLog(Document):
     http_x_forwarded_for = Text(analyzer='snowball')
     http_referer = Text(analyzer='snowball')
     time_local = Date() 
-    request_time = Float() 
-    upstream_response_time = Float() 
+    request_time = Float()
+    # 这个原本使用的是 float 后来发现是两个值
+    upstream_response_time = Text(analyzer='snowball')
     upstream_status = Text(analyzer='snowball')
     upstream_addr = Text(analyzer='snowball')
     http_user_agent = Text(analyzer='snowball')
@@ -37,7 +38,7 @@ class NginxAccessLog(Document):
     user_agent = Text(analyzer='snowball')
 
     class Index:
-        name = 'ngx_access_log'
+        name = 'ngx_access_log_v1'
         settings = {
           "number_of_shards": 2,
         }
@@ -55,24 +56,22 @@ NginxAccessLog.init()
 
 
 class NginxAlertLog(Document):
-    """
-    {"transaction":{"client_ip":"127.0.0.1",
-    "time_stamp":"Wed Oct  2 08:07:01 2019",
-    "server_id":"e74dde9f8eb44d5b0093491a543ac04a9f54d99c",
-    "client_port":38764,"host_ip":"127.0.0.1",
-    "host_port":2380,
-    "unique_id":"15700180210.267978",
-    "request":{"method":"GET",
-    "http_version":1.0,"uri":"/",
-    "headers":{"Host":"localhost:2380","User-Agent":"ApacheBench/2.3","Accept":"*/*"}},
-    "response":{"http_code":403,"headers":{"Server":"nginx","Date":"Wed, 02 Oct 2019 12:07:01 GMT","Content-Length":"554","Content-Type":"text/html","Connection":"close"}},"producer":{"modsecurity":"ModSecurity v3.0.3 (Linux)","connector":"ModSecurity-nginx v1.0.0","secrules_engine":"Enabled","components":["OWASP_CRS/3.1.0\""]},"messages":[]}}
-    """
+
     insert_date = Date()
     log_host = Text(analyzer='snowball')
     log_source = Text(analyzer='snowball')  # 可以设置为IP
 
+    time_stamp = Date()
+    server_id = Text(analyzer='snowball')
+    client_port = Integer()
+    host_ip = Ip()
+    host_port = Integer()
+    unique_id = Text(analyzer='snowball')
     request = Object()
-
+    response = Object()
+    producer = Object()
+    messages = Object()
+    missing = Boolean()
 
     class Index:
         name = 'nginx_alert_log'
@@ -88,5 +87,34 @@ class NginxAlertLog(Document):
 
         return super(NginxAlertLog, self).save(**kwargs)
 
+
+NginxAlertLog.init()
+
+
+# todo missing 的消息进行补充; json日志存在丢失情况下的补充。
+class NginxErrorLog(Document):
+
+    insert_date = Date()
+
+    unique_id = Text(analyzer='snowball')
+    messages = Object()
+    body = Text(analyzer='snowball')
+
+    class Index:
+        name = 'nginx_error_log'
+        settings = {
+            "number_of_shards": 2,
+        }
+
+    def save(self, **kwargs):
+        if not self.log_host:
+            self.log_host = '127.0.0.1'
+        if not self.log_source:
+            self.log_source = '127.0.0.1'
+
+        return super(NginxErrorLog, self).save(**kwargs)
+
+
+NginxErrorLog.init()
 
 

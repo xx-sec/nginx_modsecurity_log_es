@@ -14,15 +14,19 @@ REDIS_DB = 10
 
 OPS_LOG_FILE = '/spool/log/sloges.log'
 
-# 访问日志的初始化
-NGX_REDIS_RESULTS_KEY = "ngx_access_results"
-NGX_MAX_INSERT_NUM = 200
-DELAY_EXP_KEY1 = 'expire_Key1'
+
 DELAY_EXP = 10  # 延迟10s 如果结果有了就一次插入。
-DELAY_RECODE_KEY1 = 'ngx_access_log_delay_key'  # 设置改键盘存活。
+# 访问日志的初始化
+NGX_ACS_MAX_INSERT_NUM = 200
+NGX_ACS_DELAY_EXP_KEY = 'expire_Key1'  # 这个键存活10秒
+NGX_ACS_RESULTS_KEY = "ngx_access_results"
 
 # 告警日志的管理
-DELAY_RECODE_KEY2 = 'ngx_alert_log_delay_key'  # 设置改键盘存活。
-NGX_MAX_INSERT_NUM2 = 10
+NGX_AUD_MAX_INSERT_NUM = 100
+NGX_AUD_DELAY_EXP_KEY = 'expire_Key2'  # 过期设置的key
+NGX_AUD_RESULTS_KEY = "ngx_alert_results"
 
-
+# 错误日志
+NGX_ERR_DELAY_EXP_KEY = 'ngx_error_log_delay_key'
+NGX_ERR_MAX_INSERT_NUM = 100   # 错误日志最多多条进行插入
+NGX_ERR_RESULTS_KEY = "ngx_error_results"  # cache 结果存储的 key
