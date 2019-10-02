@@ -8,3 +8,17 @@ sudo /usr/bin/python3 -m pip install -U pylint --user --index-url https://pypi.t
 ```
 
 ## 运行
+
+
+## 运行 Redis
+```
+docker run -itd -p 6379:6379 \
+--name=redis --restart=always \
+-v /srv/docker/redis_cso:/var/lib/redis \
+-v /etc/localtime:/etc/localtime \
+-e REDIS_PASSWORD=sqsjywl123 \
+registry.cn-hangzhou.aliyuncs.com/xxzhang/redis:4.0.9
+```
+
+## 运行
+-= 

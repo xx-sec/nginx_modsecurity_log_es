@@ -2,7 +2,7 @@ from datetime import datetime
 from elasticsearch_dsl import Document, Date, Integer, Keyword, Text, connections, Object
 
 # Define a default Elasticsearch client
-connections.create_connection(hosts=['http://elastic:changeme@192.168.2.227:9200/', ])
+client = connections.create_connection(hosts=['http://elastic:test@1q2w2e4R@192.168.1.5:9200/', ])
 ### https://github.com/elastic/elasticsearch-dsl-py
 
 class Article(Document):
@@ -41,25 +41,35 @@ class Article(Document):
 # create the mappings in elasticsearch
 Article.init()
 
+
 # create and save and article
 def add_article(id, tag, ):
     article = Article(meta={'id': id}, title='Hello world Test233!', tags=['test', tag], to={"name": 2323})
     article.body = ''' bbcackkcdalooong text '''
     return article
 
+
 datas = []
-for x in [x+20 for x in range(4444)]:
+for x in [x+20 for x in range(10055)]:
     _d = add_article(x, 'ops')
     datas.append(_d)
 
-Article.burk()
+from elasticsearch.helpers import bulk
+
+actions = [{
+    "_index": 'blog3',
+    "_type": "_doc",
+    "_source": x
+    } for x in datas]
 
 
+# bulk(client=client, actions=actions)
+print(Article._index._name)
 
 for x in Article.search():
     print("||||||||||||||||||||||||||||||||")
-    print(x)
     print(x.to_dict())
+    print(x)
     print("===================")
 
 # Display cluster health
