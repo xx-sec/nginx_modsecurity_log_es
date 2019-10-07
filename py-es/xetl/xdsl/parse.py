@@ -42,6 +42,11 @@ def parse_nginx_alert_item(item):
     zd_item["missing"] = False
     if len(zd_item["messages"]) < 1:
         zd_item["missing"] = True
+        zd_item["rule_id"] = 0
+        zd_item["msg"] = '上下文阻断;详情可联立`unique_id`和`ngx_error_log`'
+    else:
+        zd_item["rule_id"] = int(zd_item["messages"][0]["ruleId"])
+        zd_item["msg"] = zd_item["messages"][0]["message"]
     # 时间
     zd_item['time_stamp'] = get_pydt_based_logdt(zd_item['time_stamp'])
     return dict(

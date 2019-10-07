@@ -19,9 +19,11 @@ class ModsecRule(Document):
     accuracy = Text(analyzer='snowball')
     ver = Text(analyzer='snowball')
     filename = Text(analyzer='snowball')
+    # 2019-10-7 增加
+    category = Text(analyzer='snowball')
 
     class Index:
-        name = 'modsec_rules'
+        name = 'ngx_modsec_rules'
         settings = {
             "number_of_shards": 2,
         }

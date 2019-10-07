@@ -85,7 +85,7 @@ def parse_ruletxt_to_dict(filename):
             maturity_matched = re.match(".*?maturity:'(.*?)',.*?", local_txt)
             accuracy_matched = re.match(".*?accuracy:'(.*?)',.*?", local_txt)
             ver_matched = re.match(".*?ver:'(.*?)',.*?", local_txt)
-            action_matched = re.match(".*?ver:'(pass|block|deny|drop|redirect|proxy)',.*?", local_txt)
+            action_matched = re.match(".*?(pass|block|deny|drop|redirect|proxy).*?", local_txt)
             if msg_matched:
                 msg = msg_matched.group(1).replace("%", "AcTaBle").replace("{", "ZHAXIX").replace("}", "XIXAHZ")
                 matched2 = re.match("(.*?)AcTaBle.*", msg)
@@ -138,10 +138,15 @@ def rules_to_es():
     from .models import ModsecRule, client
     from elasticsearch.helpers import bulk
 
+    from .parse_cate import get_kv_of_rukes
+    kv_cates = get_kv_of_rukes()
+
     inserted = get_all_rule_extracts()
     docs = []
     for x in inserted:
+        x["category"] = [x for x in kv_cates if x["filename"] == x["filename"]][0]["cn_category"]
         _tmp = ModsecRule(meta={'id': x["rule_id"]}, **x)
+
         docs.append(_tmp)
     bulk(client=client, actions=[{
         "_index": ModsecRule._index._name,

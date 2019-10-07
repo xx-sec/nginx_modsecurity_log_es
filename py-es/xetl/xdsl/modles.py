@@ -73,6 +73,9 @@ class NginxAlertLog(Document):
     messages = Object()
     missing = Boolean()
 
+    msg = Text(analyzer='snowball')
+    rule_id = Integer()
+
     class Index:
         name = 'nginx_alert_log'
         settings = {
@@ -84,7 +87,6 @@ class NginxAlertLog(Document):
             self.log_host = '127.0.0.1'
         if not self.log_source:
             self.log_source = '127.0.0.1'
-
         return super(NginxAlertLog, self).save(**kwargs)
 
 

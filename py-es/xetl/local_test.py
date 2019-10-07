@@ -21,7 +21,12 @@ def test2():
         print("-==============")
 
 
+def push_rules_to_es():
+    from xowasp.parse import rules_to_es
+    rules_to_es()
+
+
 if __name__ == '__main__':
-    test2()
+    push_rules_to_es()
 
 
