@@ -75,7 +75,7 @@ def parse_ruletxt_to_dict(filename):
         temp = data.copy()
         rule_txt = temp["rule_txt"]
         # 告警信息, 标签, 安全等级, 阶段， 版本， 完备性， 成熟性
-        msg, tags, severity, phase, rev, maturity, accuracy, ver = "", [], "", "", "0", 0, 0, 'OWASP_CRS/0.0'
+        msg, tags, severity, phase, rev, maturity, accuracy, ver, action = "", [], "", "", "0", 0, 0, 'OWASP_CRS/0.0', 'deny'
         tags_matched = re.findall(".*?tag:'(.*?)',.*?", rule_txt)
         for local_txt in rule_txt.split("\n"):
             msg_matched = re.match(".*?msg:'(.*?)',.*?", local_txt)
@@ -85,6 +85,7 @@ def parse_ruletxt_to_dict(filename):
             maturity_matched = re.match(".*?maturity:'(.*?)',.*?", local_txt)
             accuracy_matched = re.match(".*?accuracy:'(.*?)',.*?", local_txt)
             ver_matched = re.match(".*?ver:'(.*?)',.*?", local_txt)
+            action_matched = re.match(".*?ver:'(pass|block|deny|drop|redirect|proxy)',.*?", local_txt)
             if msg_matched:
                 msg = msg_matched.group(1).replace("%", "AcTaBle").replace("{", "ZHAXIX").replace("}", "XIXAHZ")
                 matched2 = re.match("(.*?)AcTaBle.*", msg)
@@ -102,6 +103,8 @@ def parse_ruletxt_to_dict(filename):
                 accuracy = accuracy_matched.group(1)
             if ver_matched:
                 ver = ver_matched.group(1)
+            if action_matched:
+                action = action_matched.group(1)
 
         if tags_matched:
             tags = list(tags_matched)
@@ -115,6 +118,7 @@ def parse_ruletxt_to_dict(filename):
             accuracy=accuracy,
             ver=ver,
             filename=filename,
+            action=action,
         )
         # temp = dict({}, **params)
         temp = dict(temp, **params)
