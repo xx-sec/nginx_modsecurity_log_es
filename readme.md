@@ -57,3 +57,6 @@ docker run -itd --name=sloges --net=host --restart=always \
 registry.cn-hangzhou.aliyuncs.com/rapid7/syslog-es:v1 \
 /bin/bash /entrypoint.sh 
 ```
+
+## 安装
+- -v $(which docker):/usr/bin/docker -v /var/run/docker.sock:/var/run/docker.sock
