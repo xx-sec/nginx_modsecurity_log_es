@@ -1,13 +1,13 @@
 # coding:utf-8
 
-ES_HOSTS =['http://elastic:test@1q2w2e4R@localhost:9200', ]
+ES_HOSTS =['http://elastic:test@1q2w2e4R@127.0.0.1:9200', ]
 
 # SOURCE_IP HOST_FORM
 SOURCE_IP_KEY = 'source_ip'
 HOST_FORM_KEY = 'host_from'
 
 # REDIS_CFG = "redis://sqsjywl123@localhost:6379"
-REDIS_HOST = '192.168.1.5'
+REDIS_HOST = '127.0.0.1'
 REDIS_PORT = 6379
 REDIS_PASSWORD = 'sqsjywl123'
 REDIS_DB = 10

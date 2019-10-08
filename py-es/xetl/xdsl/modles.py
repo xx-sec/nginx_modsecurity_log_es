@@ -73,7 +73,7 @@ class NginxAlertLog(Document):
     messages = Object()
     missing = Boolean()
 
-    msg = Text(analyzer='snowball')
+    msg = Object()
     rule_id = Integer()
 
     class Index:
